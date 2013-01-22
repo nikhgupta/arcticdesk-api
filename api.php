@@ -39,15 +39,14 @@ class ArcticDeskAPI {
   public $url;
 
   /**
-   * various components for this ArcticDesk instance.
+   * ID of the operator using the API.
+   * This can also be the ID of a unique operator
+   * specially created for the API purposes, so that
+   * all API calls/transactions can be tracked, easily.
+   *
+   * @var integer
    */
-  public $operators;
-  public $departments;
-  public $operator_groups;
-  public $countries;
-  public $ticket_priorities;
-  public $ticket_statuses;
-  public $users;
+  public $operator_on_work;
 
   /**
    * Constructor method for this ArcticDesk instance.
@@ -62,7 +61,7 @@ class ArcticDeskAPI {
    *                     http://yourdomain.com/api/
    * @return void
    */
-	public function __construct($domain = nil, $key = nil, $as_index = false) {
+	public function __construct($domain = null, $key = null, $as_index = false) {
 		$this->domain = $domain;
 		$this->key    = $key;
     $this->url    = "http://{$this->domain}/api";
@@ -77,8 +76,28 @@ class ArcticDeskAPI {
         $this->$pluralized_identifier = $component;
       }
     }
+  }
 
-    var_dump($this); die();
+  /**
+   * make the API use a particular operator for its calls.
+   *
+   * @param  $operator_id  id of the operator doing the current API calls
+   * @return void
+   */
+  public function set_operator_on_work($operator_id) {
+    if (!$operator_id) throw new ArcticDeskAPIException("Operator ID can not be empty!");
+    # ensure that this operator exists
+    $this->operators->id($operator_id); // will throw an error otherwise.
+    $this->operator_on_work = $operator_id;
+  }
+
+  /**
+   * make the API use anonymous calls
+   *
+   * @return void
+   */
+  public function remove_operator_from_work() {
+    $this->operator_on_work = null;
   }
 }
 

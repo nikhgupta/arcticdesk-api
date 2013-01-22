@@ -46,8 +46,8 @@ class ArcticDeskAPIComponent {
    * @param  $identifier identifier for this component
    * @return void
    */
-  public function __construct($arcticdesk, $identifier, $nice_name = false) {
-    $nice_name        = $nice_name || $identifier;
+  public function __construct($arcticdesk, $identifier, $nice_name = null) {
+    if (!$nice_name) $nice_name = $identifier;
     $this->name       = ucwords(str_replace("_", " ", $nice_name));
     $this->arcticdesk = $arcticdesk;
     $this->identifier = $identifier;
@@ -179,6 +179,9 @@ class ArcticDeskAPIComponent {
     if ($endpoint) $url .= "/" . $endpoint;
     $url .= ".json?{$auth}";
 
+    // set the operator who is on work
+    if ($this->operator_on_work) $url .= "&staff_id={$this->operator_on_work}";
+
     // initiate a curl session and setup options, as required.
     $curl = curl_init();
     switch ($method) {
@@ -236,6 +239,6 @@ class ArcticDeskAPIComponent {
    * @return array
    */
   public function __add_optional_attribute(&$data, $options, $attribute) {
-    return $this->__add_attribute($data, $options, $attribute);
+    return $this->__add_attribute($data, $options, $attribute, false);
   }
 }

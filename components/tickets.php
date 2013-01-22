@@ -33,7 +33,7 @@ class ArcticDeskAPIForTicket extends ArcticDeskAPIComponent
    */
   public function __construct($arcticdesk) {
     parent::__construct($arcticdesk, "ticket");
-    $this->method = array(
+    $this->methods = array(
       "all", "id", "add", "edit", "delete",
       "reply", "reply_edit", "reply_delete"
     );
@@ -81,9 +81,9 @@ class ArcticDeskAPIForTicket extends ArcticDeskAPIComponent
    *                    - user_id (if 'email' and 'full_name' is not given)
    *                    - email (if 'user_id' is not given)
    *                    - full_name (if 'user_id' is not given)
+   *                    - priority_id
    *                  Optional data:
    *                    - company
-   *                    - priority_id
    *                    - department_id
    *                    - attachment_file (optional file array)
    *                    - operator_ticket (must be boolean)
@@ -95,7 +95,7 @@ class ArcticDeskAPIForTicket extends ArcticDeskAPIComponent
     # add required attributes
     $this->__add_attribute($options, $data, "subject");
     $this->__add_attribute($options, $data, "message_text");
-    if ($options["user_id"]) {
+    if ($data["user_id"]) {
       $this->__add_attribute($options, $data, "user_id");
       $this->__add_optional_attribute($options, $data, "email");
       $this->__add_optional_attribute($options, $data, "full_name");
