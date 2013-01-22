@@ -4,6 +4,11 @@ PHP Wrapper for ArcticDesk API
 A PHP wrapper for the [ArcticDesk](http://arcticdesk.com) API, built
 according to the `cheat-sheet.txt` provided by ArcticDesk.
 
+Note that, the response from any call to this API wrapper will return
+the json-decoded form of the data retrieved from the actual API request.
+Also, all methods raise an `ArcticDeskAPIException`, if required. If we receive
+an error from the actual API request, then an error is raised with appropriate information.
+
 Usage Example
 -------------
 
@@ -14,7 +19,8 @@ Usage Example
       $desk = new ArcticDesk( "yourdomain.com", "your_api_key" );
 
       # get a list of all departments for this ArcticDesk
-      $departments = $desk->departments->all();
+      $response = $desk->departments->all();
+      // ^^ will be a json-decoded representation of the api-response
 
       # create a new user
       $data = array(
