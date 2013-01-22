@@ -82,9 +82,9 @@ class ArcticDeskAPIForTicket extends ArcticDeskAPIComponent
    *                    - email (if 'user_id' is not given)
    *                    - full_name (if 'user_id' is not given)
    *                    - priority_id
+   *                    - department_id
    *                  Optional data:
    *                    - company
-   *                    - department_id
    *                    - attachment_file (optional file array)
    *                    - operator_ticket (must be boolean)
    * @return api_response
